@@ -9,10 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bac,bc,bp,bsqrt,bplus,bminus,bdiv,bmod,bequal,bdot,bbrac1,bbrac2,bsin,bcos,btan,bsquare,bpi,bfact;
+    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bac,bc,bp,bsqrt,bplus,bminus,bdiv,bmod,bequal,bdot,bbrac1,bbrac2,bsin,bcos,btan,bsquare,bpi,bfact,blog,bln,binv;
     TextView tvmain,tvsec;
     int sum = 0;
-    double pi = Math.PI;
+    String pi = "3.14159265";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         bmod = findViewById(R.id.bmod);
         bequal = findViewById(R.id.bequal);
         bdot = findViewById(R.id.bdot);
-        bp = findViewById(R.id.bp);
         bsqrt = findViewById(R.id.bsqrt);
         bfact = findViewById(R.id.bfact);
         bsquare = findViewById(R.id.bsquare);
@@ -47,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         bpi = findViewById(R.id.bpi);
         bbrac1 = findViewById(R.id.bbrac1);
         bbrac2 = findViewById(R.id.bbrac2);
+        blog = findViewById(R.id.blog);
+        bln = findViewById(R.id.bln);
+        binv = findViewById(R.id.binv);
 
         tvmain = findViewById(R.id.tvmain);
         tvsec = findViewById(R.id.tvsec);
@@ -126,7 +128,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String val = tvmain.getText().toString();
-                tvmain.setText(val+bdot.getText().toString());
+                if (!val.contains("."))
+                {
+                    tvmain.setText(val+bdot.getText().toString());
+                }
             }
         });
         bplus.setOnClickListener(new View.OnClickListener() {
@@ -202,16 +207,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String val = tvmain.getText().toString();
-                val = val.substring(0, val.length() - 1);
-                tvmain.setText(val);
-            }
-        });
-        bp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String val = tvmain.getText().toString();
-                val = val.substring(0, val.length() - 1);
-                tvmain.setText(val);
+                if (!val.equals(""))
+                {
+                    val = val.substring(0, val.length() - 1);
+                    tvmain.setText(val);
+                }
+
             }
         });
 
@@ -230,7 +231,8 @@ public class MainActivity extends AppCompatActivity {
         bpi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvmain.setText(tvmain.getText()+bpi.getText().toString());
+                tvmain.setText(tvmain.getText()+pi);
+                tvsec.setText(bpi.getText());
                 //hold
             }
         });
@@ -271,6 +273,24 @@ public class MainActivity extends AppCompatActivity {
                 int fact = factorial(val);
                 tvmain.setText(String.valueOf(fact));
                 tvsec.setText(val+"!");
+            }
+        });
+        binv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvmain.setText(tvmain.getText().toString()+"^"+"(-1)");
+            }
+        });
+        bln.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvmain.setText(tvmain.getText().toString()+"ln");
+            }
+        });
+        blog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvmain.setText(tvmain.getText().toString()+"log");
             }
         });
     }
@@ -355,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
                     else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
                     else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
+                    else if (func.equals("log")) x = Math.log10(x);
+                    else if (func.equals("ln")) x = Math.log(x);
                     else throw new RuntimeException("Unknown function: " + func);
                 } else {
                     throw new RuntimeException("Unexpected: " + (char)ch);
